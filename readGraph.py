@@ -31,7 +31,7 @@ if __name__ == "__main__":
     '''
     fp = open("save_cycles.txt", 'w')
     for i in range(len(cycles)):
-	fp.write(str(cycles[i])+"\n")
+        fp.write(str(cycles[i])+"\n")
     '''
 
     s_components = nx.strongly_connected_components(Graph)
@@ -40,17 +40,17 @@ if __name__ == "__main__":
     #print "over", list(s_components)
     for s_component in list(s_components):
         #print "len is", len(s_component)
-	cycles = []
-	if len(s_component) == 1:
-	    #print s_component, 'hhh'
-	    continue
-	else:
-	    #print s_component , "ppp"
-	    sub_graph = Graph.subgraph(list(s_component))
-	    for cycle in nx.algorithms.simple_cycles(sub_graph):
-		cycles.append(cycle)
-	    for i in range(len(cycles)):
-		fp.write(str(cycles[i])+"\n")
+        cycles = []
+        if len(s_component) == 1:
+            #print s_component, 'hhh'
+            continue
+        else:
+            #print s_component , "ppp"
+            sub_graph = Graph.subgraph(list(s_component))
+            for cycle in nx.algorithms.simple_cycles(sub_graph):
+                cycles.append(cycle)
+            for i in range(len(cycles)):
+                fp.write(str(cycles[i])+"\n")
     #print "over2"
     #fp = open("save_cycles.txt", 'w')
     #for i in range(len(cycles)):
