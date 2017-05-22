@@ -30,6 +30,7 @@ def findCircleGraph(G, component, group_code, num_c, component_code):
     return circle_graph, group_code
 
 def find_cycle(G):
+    # return the edges in the circle
     circles = []
     group_code, component_code = 0, 0
     components = nx.weakly_connected_components(G)
