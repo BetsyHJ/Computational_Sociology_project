@@ -58,4 +58,3 @@ if __name__ == "__main__":
         fp.write(str(c)+"\n")
     fp.close()
     print "finding circles is finished in", (time.time() - start_time), "s"
-
