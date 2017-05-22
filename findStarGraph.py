@@ -2,6 +2,9 @@ import sys, re, os
 from networkx.algorithms import topological_sort
 from readGraph import *
 
+# save node wcc id and num
+node_info = dict()
+
 def findStarGraph(G, component, group_code, num_c, component_code):
     '''
     Parameters
@@ -50,7 +53,7 @@ if __name__ == '__main__':
                                                component, group_code, num_c, component_code)
     print "finding star graph is finished in", (time.time() - start_time) / 1000, "s"
 
-    with open sys.argv[2] as fp:
+    with open(sys.argv[2],"w") as fp:
         for item in star_graph:
             fp.write(str(item) + "\n")
     print "result saved"
