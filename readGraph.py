@@ -12,9 +12,13 @@ def read_save_DAG(filename):
     Graph = nx.DiGraph()
     # read file
     f = open(filename)
+    count = 0
     for line in f.readlines():
         nodes = line.split(" ")
         Graph.add_edge(int(nodes[0]), int(nodes[1])) 
+	count += 1
+	if count >= 2210000:
+	    break
     f.close()
     return Graph
 
@@ -27,6 +31,10 @@ def findCircleGraph(G, component, group_code, num_c, component_code):
             for start_node, end_node in g2.edges():
                 circle_graph.append((start_node, end_node))
             group_code += 1
+ 	else:
+	    g2 = g.subgraph(scc)	    
+	    if scc[0] in g2[scc[0]]:
+	 	circle_graph.append((scc[0], scc[0]))
     return circle_graph, group_code
 
 def find_cycle(G):
