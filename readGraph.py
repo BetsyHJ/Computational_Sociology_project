@@ -33,8 +33,8 @@ def findCircleGraph(G, component, group_code, num_c, component_code):
             group_code += 1
  	else:
 	    g2 = g.subgraph(scc)	    
-	    if scc[0] in g2[scc[0]]:
-	 	circle_graph.append((scc[0], scc[0]))
+	    if list(scc)[0] in g2[list(scc)[0]]:
+	 	circle_graph.append((list(scc)[0], list(scc)[0]))
     return circle_graph, group_code
 
 def find_cycle(G):
