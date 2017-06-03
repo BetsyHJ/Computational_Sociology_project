@@ -79,6 +79,8 @@ def findLineGrah(G ):
     d= dist_get(G)
     for node in nx.topological_sort(G):
          if G.succ[node]:
+             continue
+         else:
              for l in d[node]:
                  if len(l)>1:
                      fp.write(str(l)+"\n")  
