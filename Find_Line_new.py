@@ -25,7 +25,6 @@ def read_save_DAG(filename):
         Graph.add_edge(int(nodes[0]), int(nodes[1])) 
     f.close()
     return Graph
-
 def findCircleGraph(G, component, group_code, num_c, component_code):
     circle_graph = []
     g = G.subgraph(component)
@@ -36,7 +35,6 @@ def findCircleGraph(G, component, group_code, num_c, component_code):
                 circle_graph.append((start_node, end_node))
             group_code += 1
     return circle_graph, group_code
-
 def find_cycle(G):
     # return the edges in the circle
     circles = []
@@ -57,7 +55,6 @@ def find_Line(G):
     D.add_edges_from(circles)
     for start_node , end_node in D.edges():
         G.remove_edge(start_node, end_node)         
-    #line = []
     group_code , component_code =  0 , 0
     components = nx.weakly_connected_components(G)
     for component in  components:
@@ -68,78 +65,33 @@ def find_Line(G):
 
         
     
-def findLineGrah(G , component ,group_code,num_c,component_code):
-    fp = open("save_lines.txt",'w')
-    line_gragh = []
-    if len(component) <=2 :
-        return line_gragh ,group_code
-    g = G.subgraph(component)
-    d= dist_get(g)
-    for node in nx.topological_sort(g):
-         if g.succ[node]:
-             continue
-         else :
-             for l in d[node]:
-                 fp.write(str(l)+"\n")   
+def findLineGrah(G ):
     
+    D = nx.DiGraph()
+    circles = find_cycle(G)
+    D.add_edges_from(circles)
+    for start_node , end_node in D.edges():
+         G.remove_edge(start_node, end_node)
+    fp = open("save_lines.txt",'w')
+ #   if len(component) <=2 :
+      #  return 
+  #  g = G.subgraph(component)
+    d= dist_get(G)
+    for node in nx.topological_sort(G):
+         if G.succ[node]:
+             for l in d[node]:
+                 if len(l)>1:
+                     fp.write(str(l)+"\n")  
+            
              
     fp.close()
     return        
         
-'''
-        for  lp in l:
-            line = []
-            if len(lp) >=3 :
-                pre_node = None
-                for end_node in lp:
-                    if pre_node:
-                        line.append((pre_node,end_node ,str(group_code),"2",component_code,num_c))
-                    pre_node =end_node
-                group_code += 1
-            line_graph += line
- 
-    except nx.NetworkXUnfeasible:
-        pass
-    return line_gragh , group_code
-'''
-def line_path(G):
-   # dist = {}
-    nodes = []# list of out-degress
-    for node in G.nodes():
-        if G.succ[node]:
-            continue
-        else :
-            nodes.append(node)
-    l = []
-    for lastnode in nodes:
-        
-        line = []
-        global all_line
-        all_line =[]
-        line_get(lastnode, line ,all_line ,G )
-        l += all_line
 
-    
-    return l
-
-def line_get(node , line ,all_line, G):
-    line.append(node)
-    pre_node = G.pred[node]
-    if pre_node:
-        for v in G.pred[node]:
-            
-            line_get(v , line ,all_line ,G)
-           
-            line.remove(v)
-                
-    else: 
-        
-        if len(line) >1:
-            all_line.append( list(reversed(line)))
-        return
     
 def dist_get(G):
     dist = {}
+    fp = open("sav.txt",'w')
 
     for node in nx.topological_sort(G):
         pre = G.pred[node]
@@ -159,9 +111,10 @@ def dist_get(G):
             a = []
             a.append(node)
             dist[node] = [a]
-          #  print dist[node] ,node
+        fp.write(str(dist[node])+'\n')
         
-    
+    fp.close()   
+          #  print dist[node] ,node
     return  dist
 
 
@@ -184,12 +137,6 @@ if __name__ == "__main__":
     print "finding circles is finished in", (time.time() - start_time), "s"
     
     start_time = time.time()
-    find_Line(G)
+    findLineGrah(G )
     #save the lines
     print "finding lines is finished in", (time.time() - start_time), "s"
-    
-        
-        
-        
-    
-    
