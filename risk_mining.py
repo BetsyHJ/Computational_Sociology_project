@@ -12,11 +12,6 @@ sys.setrecursionlimit(1500000)
 N_degree = 10
 egos = []
 
-def get_egos(path):
-    for f in os.listdir(path):
-        if f.endswith(".edges"):
-            egos.append(f.split(".")[0])
-
 def read_save_DAG(filename):
     ## read the combine file and put(save) the edges into the DAG
     ## return the DAG
@@ -129,7 +124,6 @@ def dist_get(G):
 
 
 if __name__ == "__main__":
-    egos = get_egos(sys.argv[1])
     start_time = time.time()
     Path = sys.argv[2]#'./twitter_combined.txt'
     G = read_save_DAG(Path)
