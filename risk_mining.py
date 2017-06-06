@@ -9,7 +9,7 @@ from scipy.optimize.linesearch import LineSearchWarning
 import copy
 
 sys.setrecursionlimit(1500000)
-N_degree = 10
+N_degree = 30
 egos = []
 
 def read_save_DAG(filename):
@@ -31,7 +31,7 @@ def findCircleGraph(G, component, group_code, num_c, component_code):
     circle_graph = []
     g = G.subgraph(component)
     for scc in nx.strongly_connected_components(g):
-        if len(scc) > 10:
+        if len(scc) > 10 and len(scc) < 10000:
             g2 = g.subgraph(scc)
             for start_node, end_node in g2.edges():
                 circle_graph.append((start_node, end_node))
@@ -71,16 +71,6 @@ def findStarGraph(G, component, group_code, num_c, component_code):
     if len(component) <= 2:
         return star_graph, group_code
     g = G.subgraph(component)
-    for u, outdegree in g.out_degree().iteritems():
-        if outdegree < N_degree:
-            continue
-        for start_node, end_node in g.in_edges(u):
-            star_graph.append(
-                (start_node, end_node, str(group_code), component_code, num_c))
-        for start_node, end_node in g.out_edges(u):
-            star_graph.append(
-                (start_node, end_node, str(group_code), component_code, num_c))
-        group_code += 1
     for u, indegree in g.in_degree().iteritems():
         if indegree < N_degree:
             continue
@@ -125,7 +115,7 @@ def dist_get(G):
 
 if __name__ == "__main__":
     start_time = time.time()
-    Path = sys.argv[2]#'./twitter_combined.txt'
+    Path = sys.argv[1]#'./twitter_combined.txt'
     G = read_save_DAG(Path)
     ## print the basis infomation
     print "loading data is finished in", (time.time() - start_time), "s"
